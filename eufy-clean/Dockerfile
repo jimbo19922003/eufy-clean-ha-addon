@@ -1,5 +1,8 @@
 # Use an official Node.js runtime as a parent image
-FROM node:latest
+FROM debian:latest
+
+RUN apt-get update && \
+    apt-get install -y git
 
 # Set the working directory
 WORKDIR /usr/src/app
