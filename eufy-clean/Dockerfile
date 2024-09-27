@@ -8,8 +8,9 @@ RUN apt-get update && \
     apt-get install -y ca-certificates curl gnupg git && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarnkey.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
-    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \  # Updated to a newer LTS version
-    apt-get update && \
+    curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+    
+RUN apt-get update && \
     apt-get install -y nodejs yarn && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
