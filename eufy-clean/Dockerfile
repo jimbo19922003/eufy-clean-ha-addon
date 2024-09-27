@@ -1,23 +1,17 @@
 # Use an official Node.js runtime as a parent image
-FROM node:16-alpine
+FROM node:latest
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and yarn.lock to the container
-RUN git clone https://github.com/martijnpoppen/eufy-clean.git
+# Clone the eufy-clean repository
+RUN git clone https://github.com/martijnpoppen/eufy-clean.git .
 
-RUN cd eufy-clean
+# Install dependencies
+RUN yarn install
 
-# Install app dependencies
-RUN yarn
-
-# Expose port if necessary (adjust if your app uses a specific port)
+# Expose the port the app runs on, if applicable (adjust if necessary)
 EXPOSE 3131
 
-# Define environment variables for email and password
-ENV EUFY_EMAIL="jimbo19922003@gmail.com"
-ENV EUFY_PASSWORD="Done2Day!"
-
-# Start the application (adjust the start command if necessary)
-CMD ["node", "dist/main.js"]
+# Command to run the application
+CMD ["node", "./build/index.js"]  # Replace 'your-app-start-file.js' with the actual start file, if applicable
