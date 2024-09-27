@@ -13,6 +13,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/sh
 # Add Yarn's repository with signed-by option
 RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get update && apt-get install -y nodejs
+
 # Install Yarn
 RUN apt-get update && \
     apt-get install -y yarn
@@ -28,7 +32,7 @@ RUN git clone https://github.com/martijnpoppen/eufy-clean.git .
 WORKDIR /usr/src/app/eufy-clean
 
 # Install dependencies
-RUN yarn
+RUN yarn --verbose
 
 # Expose the necessary port
 EXPOSE 3131
