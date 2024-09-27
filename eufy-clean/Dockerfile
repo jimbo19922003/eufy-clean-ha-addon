@@ -26,7 +26,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Clone the eufy-clean repository
-RUN git clone https://github.com/martijnpoppen/eufy-clean.git .
+RUN git clone https://github.com/martijnpoppen/eufy-clean.git
 
 # Set the working directory to the cloned repository
 WORKDIR /usr/src/app/eufy-clean
