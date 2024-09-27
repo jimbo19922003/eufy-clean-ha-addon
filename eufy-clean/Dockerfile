@@ -3,6 +3,7 @@ FROM debian:latest
 
 # Install Git
 RUN apt-get update && \
+    apt-get install ca-certificates
     apt-get install -y git
 
 # Install Yarn
