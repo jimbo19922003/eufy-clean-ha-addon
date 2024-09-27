@@ -24,6 +24,8 @@ RUN apt-get clean && \
 # Clone the eufy-clean repository
 RUN git clone https://github.com/martijnpoppen/eufy-clean.git .
 
+RUN cd eufy-clean
+
 # Install dependencies
 RUN yarn
 
