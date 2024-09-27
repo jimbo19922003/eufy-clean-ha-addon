@@ -1,4 +1,3 @@
-# Use a specific Debian version
 FROM debian:bullseye
 
 # Set the working directory
@@ -6,21 +5,15 @@ WORKDIR /usr/src/app
 
 # Install curl and ca-certificates
 RUN apt-get update && \
-    apt-get install -y ca-certificates curl
+    apt-get install -y ca-certificates curl gnupg
 
-# Download Yarn's GPG key to a file to check if curl succeeds
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o yarn-key.gpg
+# Download Yarn's GPG key
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /usr/share/keyrings/yarnkey.gpg
 
-# Check if the key file is downloaded and not empty
-RUN ls -l yarn-key.gpg && cat yarn-key.gpg
+# Add Yarn's repository with signed-by option
+RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-# Add Yarn's GPG key from the file
-RUN apt-key add yarn-key.gpg
-
-# Add Yarn's repository
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-
-# Proceed with installation of yarn
+# Install Yarn
 RUN apt-get update && \
     apt-get install -y yarn
 
