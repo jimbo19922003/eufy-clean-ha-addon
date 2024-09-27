@@ -1,0 +1,20 @@
+{
+  "name": "Eufy Clean Add-on",
+  "version": "1.0.0",
+  "slug": "eufy_clean",
+  "description": "Integrate Eufy Clean devices with Home Assistant",
+  "arch": ["armv7", "armhf", "aarch64", "amd64", "i386"],
+  "startup": "services",
+  "boot": "auto",
+  "options": {
+    "email": "",
+    "password": ""
+  },
+  "schema": {
+    "email": "str?",
+    "password": "str?"
+  },
+  "ports": {
+    "3131/tcp": 3131
+  }
+}
