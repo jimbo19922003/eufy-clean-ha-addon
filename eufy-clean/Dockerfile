@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 # Install curl and ca-certificates
 RUN apt-get update && \
-    apt-get install -y ca-certificates curl gnupg
+    apt-get install -y ca-certificates curl gnupg git
 
 # Download Yarn's GPG key
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarnkey.gpg
