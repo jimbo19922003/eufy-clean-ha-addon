@@ -5,10 +5,7 @@ WORKDIR /usr/src/app
 
 # Install curl and ca-certificates
 RUN apt-get update && \
-    apt-get install -y ca-certificates curl gnupg git nodejs npm
-
-# Upgrade npm and install Yarn globally
-RUN npm install -g npm yarn
+    apt-get install -y ca-certificates curl gnupg git
 
 # Download Yarn's GPG key
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarnkey.gpg
@@ -28,7 +25,7 @@ RUN apt-get clean && \
 RUN git clone https://github.com/martijnpoppen/eufy-clean.git .
 
 # Install dependencies
-RUN yarn install
+RUN yarn
 
 # Expose the necessary port
 EXPOSE 3131
