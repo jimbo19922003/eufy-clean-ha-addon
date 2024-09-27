@@ -5,7 +5,9 @@ FROM node:16-alpine
 WORKDIR /usr/src/app
 
 # Copy package.json and yarn.lock to the container
-git clone https://github.com/martijnpoppen/eufy-clean.git
+RUN git clone https://github.com/martijnpoppen/eufy-clean.git
+
+RUN cd eufy-clean
 
 # Install app dependencies
 RUN yarn
