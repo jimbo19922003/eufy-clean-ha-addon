@@ -10,7 +10,7 @@
     "clear-build": "rimraf ../../com.eufylife.home/lib/eufy-clean/build",
     "build": "yarn clean && tsc && yarn copy-files && yarn clear-build && yarn copy-build",
     "test": "echo \"Error: no test specified\" && exit 1"
-	"start": "node dist/main.js"
+    "start": "node dist/main.js"
   },
   "keywords": [],
   "author": "",
