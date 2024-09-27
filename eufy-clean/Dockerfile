@@ -3,26 +3,15 @@ FROM debian:bullseye
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Install curl and ca-certificates
+# Install dependencies
 RUN apt-get update && \
-    apt-get install -y ca-certificates curl gnupg git
-
-# Download Yarn's GPG key
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarnkey.gpg
-
-# Add Yarn's repository with signed-by option
-RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-
-# Install Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get update && apt-get install -y nodejs
-
-# Install Yarn
-RUN apt-get update && \
-    apt-get install -y yarn
-
-# Cleanup
-RUN apt-get clean && \
+    apt-get install -y ca-certificates curl gnupg git && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarnkey.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
+    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \  # Updated to a newer LTS version
+    apt-get update && \
+    apt-get install -y nodejs yarn && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Clone the eufy-clean repository
@@ -31,11 +20,9 @@ RUN git clone https://github.com/martijnpoppen/eufy-clean.git /usr/src/app/eufy-
 # Set the working directory to the cloned repository
 WORKDIR /usr/src/app/eufy-clean
 
-# Check contents of the directory
-RUN ls -al /usr/src/app/eufy-clean
-
-# Install dependencies
-RUN yarn --verbose
+# Check contents of the directory and attempt to install dependencies
+RUN ls -al /usr/src/app/eufy-clean && \
+    yarn install --verbose
 
 # Expose the necessary port
 EXPOSE 3131
