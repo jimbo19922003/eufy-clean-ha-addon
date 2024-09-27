@@ -5,16 +5,10 @@ FROM node:16-alpine
 WORKDIR /usr/src/app
 
 # Copy package.json and yarn.lock to the container
-COPY package.json yarn.lock ./
+git clone https://github.com/martijnpoppen/eufy-clean.git
 
 # Install app dependencies
 RUN yarn
-
-# Copy the rest of the application code
-COPY . .
-
-# Compile TypeScript to JavaScript
-RUN yarn build
 
 # Expose port if necessary (adjust if your app uses a specific port)
 EXPOSE 3131
