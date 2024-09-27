@@ -25,6 +25,12 @@ WORKDIR /usr/src/app/eufy-clean
 RUN ls -al /usr/src/app/eufy-clean && \
     yarn install --verbose
 
+# Build the application if applicable
+# Add this if there's a build script in package.json
+RUN yarn build
+
+
+
 # Expose the necessary port
 EXPOSE 3131
 
