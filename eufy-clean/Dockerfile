@@ -5,7 +5,10 @@ WORKDIR /usr/src/app
 
 # Install curl and ca-certificates
 RUN apt-get update && \
-    apt-get install -y ca-certificates curl gnupg git
+    apt-get install -y ca-certificates curl gnupg git nodejs npm
+
+# Upgrade npm and install Yarn globally
+RUN npm install -g npm yarn
 
 # Download Yarn's GPG key
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarnkey.gpg
