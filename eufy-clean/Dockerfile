@@ -1,13 +1,25 @@
-# Use an official Node.js runtime as a parent image
-FROM debian:latest
+# Use a specific Debian version to avoid potential issues with 'latest'
+FROM debian:bullseye
 
-# Install Git, ca-certificates, and Yarn
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Install necessary packages
 RUN apt-get update && \
-    apt-get install -y ca-certificates git curl && \
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && apt-get install -y yarn && \
-    apt-get clean && \
+    apt-get install -y ca-certificates git curl
+
+# Add Yarn's GPG key
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+
+# Add Yarn's repository
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+# Install Yarn
+RUN apt-get update && \
+    apt-get install -y yarn
+
+# Clean up to reduce image size
+RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
