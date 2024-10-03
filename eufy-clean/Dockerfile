@@ -27,7 +27,7 @@ RUN yarn install --verbose
 # Compile TypeScript to JavaScript
 RUN yarn build
 
-# Check contents of the build directory
+# Check if the build output exists
 RUN ls -al build
 
 # Create the entry point script
