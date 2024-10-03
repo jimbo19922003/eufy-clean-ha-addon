@@ -27,8 +27,11 @@ RUN yarn install --verbose
 # Compile TypeScript to JavaScript
 RUN yarn build
 
-# Check if the build output exists
-RUN ls -al build
+# Check if the build output exists and list its contents
+RUN echo "Build output:" && ls -al build
+
+# List the contents of the eufy-clean directory to check overall structure
+RUN echo "Checking eufy-clean directory:" && ls -al /usr/src/app/eufy-clean
 
 # Create the entry point script
 RUN echo "const { EufyClean } = require('./build/index.js');" > entrypoint.js && \
