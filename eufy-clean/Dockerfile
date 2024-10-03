@@ -48,5 +48,5 @@ RUN echo "const { EufyClean } = require('./build/index.js');" > entrypoint.js &&
 # Expose the necessary port
 EXPOSE 3131
 
-# Command to run the application
+# Command to run the entry point
 CMD ["node", "./entrypoint.js"]
