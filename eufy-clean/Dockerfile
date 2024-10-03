@@ -9,7 +9,7 @@ RUN apt-get update && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarnkey.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list && \
     curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-    
+
 RUN apt-get update && \
     apt-get install -y nodejs yarn && \
     apt-get clean && \
@@ -21,9 +21,14 @@ RUN git clone https://github.com/martijnpoppen/eufy-clean.git /usr/src/app/eufy-
 # Set the working directory to the cloned repository
 WORKDIR /usr/src/app/eufy-clean
 
-# Check contents of the directory and attempt to install dependencies
-RUN ls -al /usr/src/app/eufy-clean && \
-    yarn install --verbose
+# Install dependencies
+RUN yarn install --verbose
+
+# Compile TypeScript to JavaScript
+RUN yarn build
+
+# Check contents of the build directory
+RUN ls -al build
 
 # Create the entry point script
 RUN echo "const { EufyClean } = require('./build/index.js');" > entrypoint.js && \
