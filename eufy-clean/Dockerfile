@@ -25,8 +25,28 @@ WORKDIR /usr/src/app/eufy-clean
 RUN ls -al /usr/src/app/eufy-clean && \
     yarn install --verbose
 
+# Create the entry point script
+RUN echo "const { EufyClean } = require('./build/index.js');" > entrypoint.js && \
+    echo "const email = process.env.EUFY_EMAIL;" >> entrypoint.js && \
+    echo "const password = process.env.EUFY_PASSWORD;" >> entrypoint.js && \
+    echo "async function main() {" >> entrypoint.js && \
+    echo "    const eufyClean = new EufyClean(email, password);" >> entrypoint.js && \
+    echo "    await eufyClean.init();" >> entrypoint.js && \
+    echo "    const allDevices = await eufyClean.getAllDevices();" >> entrypoint.js && \
+    echo "    console.log('Connected devices:', allDevices);" >> entrypoint.js && \
+    echo "    const deviceConfig = { deviceId: 'your-device-id' };" >> entrypoint.js && \
+    echo "    const device = await eufyClean.initDevice(deviceConfig);" >> entrypoint.js && \
+    echo "    await device.connect();" >> entrypoint.js && \
+    echo "    await device.setCleanParam({ cleanType: 'MOP_ONLY', cleanExtent: 'NARROW', mopMode: 'HIGH' });" >> entrypoint.js && \
+    echo "    await device.sceneClean(10);" >> entrypoint.js && \
+    echo "}" >> entrypoint.js && \
+    echo "main().catch(err => {" >> entrypoint.js && \
+    echo "    console.error('Error initializing EufyClean:', err);" >> entrypoint.js && \
+    echo "    process.exit(1);" >> entrypoint.js && \
+    echo "});" >> entrypoint.js
+
 # Expose the necessary port
 EXPOSE 3131
 
 # Command to run the application
-CMD ["node", "./build/index.js"]
+CMD ["node", "./entrypoint.js"]
